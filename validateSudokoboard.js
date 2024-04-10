@@ -2,9 +2,9 @@ function validateSudokuboard(board) {
     if (board.length != 16) return 'ugyldig brett, feil lengde';
     if (hasInvalidChars(board)) return 'ugyldig brett, ugyldig tegn';
     const isCompleteBoard = !board.includes(' ');
-    if(hasDuplicateInRow(board)) return isCompleteBoard ? 'helt utfylt, feil i rad' : 'delvis utfylt, feil i rad';
-    if(hasDuplicateInCol(board)) return isCompleteBoard ? 'helt utfylt, feil i kolonne' : 'delvis utfylt, feil i kolonne';
-    if(hasDuplicateInBox(board)) return isCompleteBoard ? 'helt utfylt, feil i firkant' : 'delvis utfylt, feil i firkant';
+    if (hasDuplicateInRow(board)) return isCompleteBoard ? 'helt utfylt, feil i rad' : 'delvis utfylt, feil i rad';
+    if (hasDuplicateInCol(board)) return isCompleteBoard ? 'helt utfylt, feil i kolonne' : 'delvis utfylt, feil i kolonne';
+    if (hasDuplicateInBox(board)) return isCompleteBoard ? 'helt utfylt, feil i firkant' : 'delvis utfylt, feil i firkant';
     return isCompleteBoard ? 'helt utfylt, ingen feil' : 'delvis utfylt, ingen feil';
 }
 
@@ -52,6 +52,12 @@ function hasInvalidChars(sudoboardString) {
 }
 
 function hasDuplicates(array) {
+    //array = array.filter(c => c != ' ');
+    const newArray = [];
+    for (let character of array) {
+        if (character != ' ') newArray.push(character);
+    }
+    array = newArray;
     return new Set(array).size !== array.length;
 }
 
