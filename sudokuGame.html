@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="sudokuGame.css">
+    <script src="validateSudokoboard.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,10 @@
         // view
         updateView();
         function updateView() {
+            const state = validateSudokuboard(model.board);
+            const isValid = state.includes('ingen feil');
             document.getElementById('app').innerHTML = /*HTML*/`
+                ${state}
                 <div class="board">
                     ${createSquares()}
                 </div>
@@ -28,6 +32,7 @@
                 <button onclick="setNumber(3)">3</button>
                 <button onclick="setNumber(4)">4</button>
             `;
+            document.body.style.backgroundColor = isValid ? 'default' : 'pink';
         }
 
         function createSquares() {
