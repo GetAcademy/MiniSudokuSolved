@@ -13,17 +13,18 @@
     <script>
         // model
         const model = {
-            board: '12  34          ',
+            board: null,
             selectedIndex: null,
         };
 
         // view
-        updateView();
+        restart();
         function updateView() {
             const state = validateSudokuboard(model.board);
             const isValid = state.includes('ingen feil');
+            const isFinished = state == 'helt utfylt, ingen feil';
             document.getElementById('app').innerHTML = /*HTML*/`
-                ${state}
+                ${state} <button onclick="restart()">restart</button>
                 <div class="board">
                     ${createSquares()}
                 </div>
@@ -32,7 +33,9 @@
                 <button onclick="setNumber(3)">3</button>
                 <button onclick="setNumber(4)">4</button>
             `;
-            document.body.style.backgroundColor = isValid ? 'default' : 'pink';
+            document.body.style.backgroundColor =
+                isFinished ? 'lightgreen' :
+                    isValid ? 'default' : 'pink';
         }
 
         function createSquares() {
@@ -40,7 +43,7 @@
             const board = model.board;
             for (let index = 0; index < board.length; index++) {
                 let square = board[index];
-                const css = index == model.selectedIndex ? 'selected': 'notSelected';
+                const css = index == model.selectedIndex ? 'selected' : 'notSelected';
                 html += /*HTML*/`
                     <div 
                         class="${css}"
@@ -58,16 +61,21 @@
             updateView();
         }
 
-        function selectSquare(index){
+        function selectSquare(index) {
             model.selectedIndex = index;
             updateView();
         }
 
-        function setNumber(number){
+        function setNumber(number) {
             const numbers = model.board.split('');
             numbers[model.selectedIndex] = number;
             model.board = numbers.join('');
             // boards.substring(0, index) + value + boards.substring(index + 1);
+            updateView();
+        }
+
+        function restart() {
+            model.board = '12  34          ';
             updateView();
         }
     </script>
