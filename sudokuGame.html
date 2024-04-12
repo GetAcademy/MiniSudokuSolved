@@ -11,16 +11,10 @@
     <div id="app"></div>
     <script>
         // model
-        const boards = [
-            '12  34          ', // delvis utfylt, ingen feil
-            '121 34          ', // delvis utfylt, samme tall to ganger på en rad
-            '12  34  1       ', // delvis utfylt, samme tall to ganger på en kolonne
-            '12  34    2    2', // delvis utfylt, samme tall to ganger i en firkant            
-            '1234341221434321', // helt utfylt, ingen feil
-            '1434321221434321', // helt utfylt, samme tall to ganger på en rad
-            '1432341221434321', // helt utfylt, samme tall to ganger på en kolonne
-        ]
-        let selectedBoardIndex = 0;
+        const model = {
+            board: '12  34          ',
+            selectedIndex: null,
+        };
 
         // view
         updateView();
@@ -29,26 +23,26 @@
                 <div class="board">
                     ${createSquares()}
                 </div>
-                <select onchange="selectBoard(this.value)">
-                    ${createOptions()}
-                </select>
+                <button onclick="setNumber(1)">1</button>
+                <button onclick="setNumber(2)">2</button>
+                <button onclick="setNumber(3)">3</button>
+                <button onclick="setNumber(4)">4</button>
             `;
         }
 
-        function createOptions() {
-            let html = '';
-            for (let index = 0; index < boards.length; index++) {
-                const board = boards[index];
-                html += /*HTML*/`<option value="${index}">${board}</option>`;
-            }
-            return html;
-        }
-
         function createSquares() {
-            const board = boards[selectedBoardIndex];
             let html = '';
-            for (let square of board) {
-                html += /*HTML*/`<div>${square}</div>`;
+            const board = model.board;
+            for (let index = 0; index < board.length; index++) {
+                let square = board[index];
+                const css = index == model.selectedIndex ? 'selected': 'notSelected';
+                html += /*HTML*/`
+                    <div 
+                        class="${css}"
+                        onclick="selectSquare(${index})"
+                        >
+                        ${square}
+                    </div>`;
             }
             return html;
         }
@@ -56,6 +50,19 @@
         // controller
         function selectBoard(index) {
             selectedBoardIndex = index;
+            updateView();
+        }
+
+        function selectSquare(index){
+            model.selectedIndex = index;
+            updateView();
+        }
+
+        function setNumber(number){
+            const numbers = model.board.split('');
+            numbers[model.selectedIndex] = number;
+            model.board = numbers.join('');
+            // boards.substring(0, index) + value + boards.substring(index + 1);
             updateView();
         }
     </script>

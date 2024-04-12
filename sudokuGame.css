@@ -10,7 +10,16 @@
     border: 1px solid lightblue;
     font-size: 300%;
     text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.notSelected {
     background-color: ivory;
+}
+
+.selected {
+    background-color: greenyellow;
 }
 
 .board>div:nth-child(3),
